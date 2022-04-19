@@ -1,5 +1,7 @@
 # Quickly-Analyzing-Stock-Charts
 
+## Presentation
+https://docs.google.com/presentation/d/1z0lVNpF1kBAoQu-vx_ps85bKoEdzJO-kbDC3REZXtFw/edit?usp=sharing
 
 ### Graphs
 Graphs contains 15 graphs (6 increasing, 6 decreasing, 3 neutral) in 28x28.
