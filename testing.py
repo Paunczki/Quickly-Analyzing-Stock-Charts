@@ -1,7 +1,11 @@
+# this is pillow to install use
+    # python3 -m pip install --upgrade pip
+    # python3 -m pip install --upgrade Pillow 
 from PIL import Image
 from ArrayFromPic import ArrayFromPic as afp
 from quickSort import quickSort as qs
 from mergeSort import mergeSort as ms
+from algos import *
 import numpy as np
 import time
 
@@ -10,31 +14,14 @@ def solve(input_file, output_file):
     print("---Loading Image 01---", "\n")
     im = Image.open(input_file)
     array_from_pic = afp(im)
-    #print(array_from_pic.mapped_array, "\n")
-
-    # create a new 1-D array to store the different index numbers which represent for number 1. 1-D array is converting from the 2-D array's columns
-    # coding by Jiaqi Fang
-    columns = list(zip(*array_from_pic.mapped_array))
-
-    # create an empty list to store the index
-    arr1 = []
-
-    oneD_array = np.empty([1,1])
-    for i in range(len(array_from_pic.mapped_array)):
-        oneD_array = np.array(columns[i])
-        #print(oneD_array)
-        for a in range(len(oneD_array)):
-            if oneD_array[a] == 1:
-                #print(a)
-                arr1.append(a)
-    print("Unsorted 1-D array: ")
-    print(arr1, "\n")
-
+    
     # -----------------multipule testing sorting algorithms--------------------
 
     # By using the recording runtime for algorithms to figure out which one is better
 
     # sort the data into desired order by using quickSort
+    arr1 = twoD_to_oneD(array_from_pic)
+
     b = len(arr1)
 
     # set the starting time for quickSort
@@ -80,7 +67,7 @@ def solve(input_file, output_file):
         print("quickSort is faster than mergeSort in this project.", "\n")
     else:
         print("They have same runtime.", "\n")
-
+    
 def main():
     solve('graphs/Graph01.jpg', 'output01.jpg')
 
