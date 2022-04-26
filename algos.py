@@ -1,18 +1,25 @@
+import math
+
 import numpy as np
+from PIL import Image
+
+from ArrayFromPic import ArrayFromPic
+
+
 def twoD_to_oneD(graph):
     columns = list(zip(*graph))
-    
-    # create an empty list to store the index
-    arr1 = []
+    oneD_array = np.zeros(len(columns))
+    mark = len(columns[0])
 
-    oneD_array = np.empty([1,1])
-    for i in range(len(graph)):
-        oneD_array = np.array(columns[i])
-        for a in range(len(oneD_array)):
-            if oneD_array[a] == 1:
-                arr1.append(a)
+    for i in range(len(columns)):
+        for j in range(len(columns[i])):
+            if columns[i][j] == 1:
+                oneD_array[i] = mark
+                mark = len(columns[0])
                 break
-    return arr1
+            else:
+                mark -= 1
+    return oneD_array
 
 
 def comp_columns(graph, size=28):
@@ -107,8 +114,28 @@ def minima_maxima(graph):
 
 # graphs: array of graphs to be compared to
 # target: target graph being compared to graphs
-def matching(graphs, target):
+def matching(graph):
+    ref_graphs = {'+': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph01.jpg')).mapped_array),
+                  '-': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph02.jpg')).mapped_array),
+                  'n': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph03.jpg')).mapped_array)}
+    scores = {'+': 0, '-': 0, 'n': 0}
+    oneD_graph = twoD_to_oneD(graph)
+    for ref in ref_graphs.keys():
+        for i in range(len(ref_graphs[ref])):
+            scores[ref] += abs(ref_graphs[ref][i] - oneD_graph[i])
 
-    print(target)
+    minimum = math.inf
+    match_result = ''
+    for score in scores.keys():
+        if scores[score] < minimum:
+            minimum = scores[score]
+            match_result = score
+
+    return match_result
+
+
+
+
+
 
 
