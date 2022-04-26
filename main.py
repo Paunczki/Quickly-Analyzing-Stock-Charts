@@ -21,15 +21,15 @@ def solve(input_file, output_file):
 
 # Built in Python argparse used to grab string names from console. To use, uncomment the commented section and comment
 # out the hardcoded solve function
-def main():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("input_file")
-    # parser.add_argument("output_file")
-    # args = parser.parse_args()
-    # # solve(args.input_file, args.output_file)
-    solve('graphs/Graph13.jpg', 'output13.jpg')  # comment this out if using argparse
-
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     # parser = argparse.ArgumentParser()
+#     # parser.add_argument("input_file")
+#     # parser.add_argument("output_file")
+#     # args = parser.parse_args()
+#     # # solve(args.input_file, args.output_file)
+#     solve('graphs/Graph13.jpg', 'output13.jpg')  # comment this out if using argparse
+#
+#
+#
+# if __name__ == '__main__':
+#     main()

@@ -1,23 +1,24 @@
 import numpy as np
 def twoD_to_oneD(graph):
-    columns = list(zip(*graph.mapped_array))
+    columns = list(zip(*graph))
     
     # create an empty list to store the index
     arr1 = []
 
     oneD_array = np.empty([1,1])
-    for i in range(len(graph.mapped_array)):
+    for i in range(len(graph)):
         oneD_array = np.array(columns[i])
         for a in range(len(oneD_array)):
             if oneD_array[a] == 1:
                 arr1.append(a)
+                break
     return arr1
 
 
 def comp_columns(graph, size=28):
-    print(size)
+    # print(size)
     column_one = graph[0]
-    column_last = graph[size]
+    column_last = graph[size - 1]
     if column_one == column_last:
         return "n"
     elif column_one > column_last:
@@ -104,7 +105,10 @@ def minima_maxima(graph):
         return "n"
 
 
-def matching(graph):
-    print(graph)
+# graphs: array of graphs to be compared to
+# target: target graph being compared to graphs
+def matching(graphs, target):
+
+    print(target)
 
 
