@@ -1,23 +1,31 @@
-import numpy as np
-def twoD_to_oneD(graph):
-    columns = list(zip(*graph.mapped_array))
-    
-    # create an empty list to store the index
-    arr1 = []
+import math
 
-    oneD_array = np.empty([1,1])
-    for i in range(len(graph.mapped_array)):
-        oneD_array = np.array(columns[i])
-        for a in range(len(oneD_array)):
-            if oneD_array[a] == 1:
-                arr1.append(a)
-    return arr1
+import numpy as np
+from PIL import Image
+
+from ArrayFromPic import ArrayFromPic
+
+
+def twoD_to_oneD(graph):
+    columns = list(zip(*graph))
+    oneD_array = np.zeros(len(columns))
+    mark = len(columns[0])
+
+    for i in range(len(columns)):
+        for j in range(len(columns[i])):
+            if columns[i][j] == 1:
+                oneD_array[i] = mark
+                mark = len(columns[0])
+                break
+            else:
+                mark -= 1
+    return oneD_array
 
 
 def comp_columns(graph, size=28):
-    print(size)
+    # print(size)
     column_one = graph[0]
-    column_last = graph[size]
+    column_last = graph[size - 1]
     if column_one == column_last:
         return "n"
     elif column_one > column_last:
@@ -104,7 +112,30 @@ def minima_maxima(graph):
         return "n"
 
 
+# graphs: array of graphs to be compared to
+# target: target graph being compared to graphs
 def matching(graph):
-    print(graph)
+    ref_graphs = {'+': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph01.jpg')).mapped_array),
+                  '-': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph02.jpg')).mapped_array),
+                  'n': twoD_to_oneD(ArrayFromPic(Image.open('graphs/Graph03.jpg')).mapped_array)}
+    scores = {'+': 0, '-': 0, 'n': 0}
+    oneD_graph = twoD_to_oneD(graph)
+    for ref in ref_graphs.keys():
+        for i in range(len(ref_graphs[ref])):
+            scores[ref] += abs(ref_graphs[ref][i] - oneD_graph[i])
+
+    minimum = math.inf
+    match_result = ''
+    for score in scores.keys():
+        if scores[score] < minimum:
+            minimum = scores[score]
+            match_result = score
+
+    return match_result
+
+
+
+
+
 
 
