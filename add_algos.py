@@ -19,7 +19,7 @@ from ArrayFromPic import ArrayFromPic
 # To do the above, run through the entire 1D array and have simple
 #    check to see if 
 
-def find_lines(oneD_array):
+def zig_zag(oneD_array):
     # This is a generic function to take the 1D Array and reduce it
     #   to its peaks/valleys
     # Will return the y values and x values in separate
@@ -85,10 +85,38 @@ def find_lines(oneD_array):
     zz_vals = []
     for j in zig_zag:
         zz_vals.append(oneD_array[j])
+    return zig_zag, zz_vals, tops, bottoms
+
+
+def head_and_shoulders():
+    print("Head and Shoulders")
+
+
+def double_top():
+    print("Double Top")
+
+
+def double_bottom():
+    print("Double Bottom")
+
+
+def cup_and_handle():
+    print("Cup and Handle")
+
+
+def rounding_bottom():
+    print("Rounding Bottom")
+
+
+'''
+---------------------------------------------------------------------
+'''
+
+# To use with graphs that depend more on slope
+def find_lines(oneD_array):
+    zig_zag, zza_vals, tops, bottoms = zig_zag(oneD_array)
 
     # array is in reverse order
-    if len(zig_zag) == 0:
-        return False, 0
     # Need a j value for when zig-zag stops
     # Then need to evaluate if that is a growth
     top_slope = []
