@@ -88,24 +88,103 @@ def zig_zag(oneD_array):
     return zig_zag, zz_vals, tops, bottoms
 
 
-def head_and_shoulders():
-    print("Head and Shoulders")
+def top_bot_straights(tops, bottoms):
+    top_count = []
+    for t in range(len(tops)):
+        # Here iterate through and see if tops are within 10%
+        if t == 0:
+            start_t = tops[0]
+            top_count.append(tops[0])
+            continue
+        if (math.abs(tops[t]-start_t) / start_t) < 0.1:
+            top_count.append(tops[t])
+            print("straigt line so far")
+        else:
+            break
+        
+    bottom_count = []
+    for b in range(len(bottoms)):
+        # Same for bottoms
+        if b == 0:
+            start_b = bottoms[0]
+            bottom_count.append(bottoms[0])
+            continue
+        if (math.abs(bottoms[b]-start_b) / start_b) < 0.1:
+            bottom_count.append(bottoms[b])
+            print("straigt line so far")
+        else:
+            break
+    return top_count, bottom_count
 
 
-def double_top():
-    print("Double Top")
+def head_and_shoulders(tops, bottoms, top_count, bottom_count):
+    if len(bottom_count) > 3 and len(top_count) > 3:
+        # These are both straight lines which do not tell us anything
+        # Therefore, we should just return false
+        return False, 0
+    elif len(bottom_count) > 3:
+        shoulder_left = tops[0]
+        head = tops[1]
+        shoulder_right = tops[2]
+        if shoulder_left < head and shoulder_right < head:
+            return True, -1
+    elif len(top_count) > 3:
+        shoulder_left = bottoms[0]
+        head = bottoms[1]
+        shoulder_right = bottoms[2]
+        if shoulder_left < head and shoulder_right < head:
+            return True, 1
+    else:
+        return False, 0
 
 
-def double_bottom():
-    print("Double Bottom")
+def double_top(tops, bottoms, top_count, bottom_count):
+    if bottom_count > 2:
+        # Straight line at bottom
+        top_one = tops[0]
+        top_two = tops[1]
+        if (math.abs(top_one - top_two) / top_one) < 0.1:
+            return True, -1
+        else:
+            return False, 0
 
 
-def cup_and_handle():
-    print("Cup and Handle")
+# cup and handle removed as it can be done via using two of these algos
+#   in the future. Additionally, it will not give us insight on how
+#   our algos are performing
 
 
-def rounding_bottom():
-    print("Rounding Bottom")
+def double_bottom(tops, bottoms, top_count, bottom_count):
+    if top_count > 2:
+        # Straight line at top
+        bottom_one = bottoms[0]
+        bottom_two = bottoms[1]
+        if (math.abs(bottom_one - bottom_two) / bottom_one) < 0.1:
+            return True, 1
+        else:
+            return False, 0
+
+
+def rounding_bottom(tops, bottoms):
+    # these will be our two top values to work with
+    top_start = tops[0]
+    top_vals = []
+    top_end = -1
+
+    for i in range(len(tops)):
+        if i == 0:
+            continue
+        val = tops[i]
+        if val < top_start:
+            top_vals.append(val)
+        else:
+            top_vals.append(val)
+            break
+    
+    if len(top_vals) > 2 and top_end != -1:
+        return True, 1
+    else:
+        return False, 0
 
 
 '''
@@ -126,6 +205,7 @@ def find_lines(oneD_array):
 
     for t in range(len(tops)):
         if t != (len(tops)-1):
+            # We reverse y2-y1 / x2-x1 b/c tops and bottoms are reversed
             delta_y = oneD_array[tops[t]] - oneD_array[tops[t+1]]
             delta_x = tops[t] - tops[t+1]
             slope = delta_y/delta_x
@@ -217,4 +297,3 @@ def desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg):
         return True, -1
     else:
         return False, 0
-
