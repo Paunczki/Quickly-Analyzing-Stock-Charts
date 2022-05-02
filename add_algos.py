@@ -2,6 +2,7 @@ import math
 import numpy as np
 from ArrayFromPic import ArrayFromPic
 
+
 # for these lets send over 1D Array as input
 # This makes sense as drawing on the graph depends on knowing y-vals
 
@@ -38,22 +39,23 @@ def zig_zag(oneD_array):
     for j in range(l):
         if j == 0:
             prev = oneD_array[l]
+            direc = -1
             continue
-        if prev < oneD_array[l-j] and direc == 1:
+        if prev < oneD_array[l - j] and direc == 1:
             # top
             print("Switch up")
-            tops.append(l-j)
+            tops.append(l - j)
             if len(bottoms) == 0:
                 bottoms.append(l)
-            prev = oneD_array[l-j]
+            prev = oneD_array[l - j]
             direc = -1
-        elif prev > oneD_array[l-j] and direc == -1:
+        elif prev > oneD_array[l - j] and direc == -1:
             # bottom
             print("Switch down")
-            bottoms.append(l-j)
+            bottoms.append(l - j)
             if len(tops) == 0:
                 tops.append(l)
-            prev = oneD_array[l-j]
+            prev = oneD_array[l - j]
             direc = 1
         # Below are not needed because they are moving in constant direction
         '''
@@ -70,7 +72,7 @@ def zig_zag(oneD_array):
         start = "t"
     else:
         start = "b"
-    
+
     zig_zag = []
 
     if start == "t":
@@ -81,7 +83,7 @@ def zig_zag(oneD_array):
         for i in range(len(bottoms)):
             zig_zag.append(bottoms[i])
             zig_zag.append(tops[i])
-    
+
     zz_vals = []
     for j in zig_zag:
         zz_vals.append(oneD_array[j])
@@ -96,12 +98,12 @@ def top_bot_straights(tops, bottoms):
             start_t = tops[0]
             top_count.append(tops[0])
             continue
-        if (math.abs(tops[t]-start_t) / start_t) < 0.1:
+        if (math.abs(tops[t] - start_t) / start_t) < 0.1:
             top_count.append(tops[t])
             print("straigt line so far")
         else:
             break
-        
+
     bottom_count = []
     for b in range(len(bottoms)):
         # Same for bottoms
@@ -109,7 +111,7 @@ def top_bot_straights(tops, bottoms):
             start_b = bottoms[0]
             bottom_count.append(bottoms[0])
             continue
-        if (math.abs(bottoms[b]-start_b) / start_b) < 0.1:
+        if (math.abs(bottoms[b] - start_b) / start_b) < 0.1:
             bottom_count.append(bottoms[b])
             print("straigt line so far")
         else:
@@ -180,7 +182,7 @@ def rounding_bottom(tops, bottoms):
         else:
             top_vals.append(val)
             break
-    
+
     if len(top_vals) > 2 and top_end != -1:
         return True, 1
     else:
@@ -191,9 +193,10 @@ def rounding_bottom(tops, bottoms):
 ---------------------------------------------------------------------
 '''
 
+
 # To use with graphs that depend more on slope
 def find_lines(oneD_array):
-    zig_zag, zza_vals, tops, bottoms = zig_zag(oneD_array)
+    zigg_zag, zza_vals, tops, bottoms = zig_zag(oneD_array)
 
     # array is in reverse order
     # Need a j value for when zig-zag stops
@@ -204,28 +207,28 @@ def find_lines(oneD_array):
     sum_bottom = 0
 
     for t in range(len(tops)):
-        if t != (len(tops)-1):
+        if t != (len(tops) - 1):
             # We reverse y2-y1 / x2-x1 b/c tops and bottoms are reversed
-            delta_y = oneD_array[tops[t]] - oneD_array[tops[t+1]]
-            delta_x = tops[t] - tops[t+1]
-            slope = delta_y/delta_x
+            delta_y = oneD_array[tops[t]] - oneD_array[tops[t + 1]]
+            delta_x = tops[t] - tops[t + 1]
+            slope = delta_y / delta_x
             top_slope.append(slope)
             sum_top += slope
 
     for b in range(len(bottoms)):
-        if b != (len(bottoms)-1):
-            delta_y = oneD_array[bottoms[b]] - oneD_array[bottoms[b+1]]
-            delta_x = bottoms[b] - bottoms[b+1]
-            slope = delta_y/delta_x
+        if b != (len(bottoms) - 1):
+            delta_y = oneD_array[bottoms[b]] - oneD_array[bottoms[b + 1]]
+            delta_x = bottoms[b] - bottoms[b + 1]
+            slope = delta_y / delta_x
             bottom_slope.append(slope)
             sum_bottom += slope
-    
+
     top_avg = sum_top / len(tops)
     bottom_avg = sum_bottom / len(bottoms)
 
     count_tops = 0
     for i in tops:
-        p_diff = math.abs(i-top_avg) / top_avg
+        p_diff = abs(i - top_avg) / top_avg
         if p_diff > 0.2:
             # If difference is more than 20%, the breakthrough
             #   may have already happened, return false
@@ -234,11 +237,11 @@ def find_lines(oneD_array):
 
     count_bottoms = 0
     for i in bottoms:
-        p_diff = math.abs(i-bottom_avg) / bottom_avg
+        p_diff = math.abs(i - bottom_avg) / bottom_avg
         if p_diff > 0.2:
             break
         count_bottoms += 1
-    
+
     return count_tops, count_bottoms, top_avg, bottom_avg
 
 
@@ -259,6 +262,7 @@ def wedge(count_tops, count_bottoms, top_avg, bottom_avg):
         # This will be a check in case something was missed
         return False, 0
 
+
 # Pennant is basically a smaller asc/desc triangle
 # Commented out for now as we handle this by checking for 
 #   at least 2 points that fit within scope
@@ -273,6 +277,7 @@ def pennant(count_tops, count_bottoms, top_avg, bottom_avg):
         return False, 0
 '''
 
+
 # Remove Symmetrical Tringles as below is better use of the patterns
 
 
@@ -282,7 +287,7 @@ def asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg):
 
     # We need an additional check to see if positive trend upwards but bottom is growing faster than converges too
     # We will use 0.67 as it means that bottom is growing faster
-    if (top_avg <= 0 and bottom_avg > 0) or (top_avg > 0 and bottom_avg > 0 and top_avg/bottom_avg < 0.67):
+    if (top_avg <= 0 and bottom_avg > 0) or (top_avg > 0 and bottom_avg > 0 and top_avg / bottom_avg < 0.67):
         return True, 1
     else:
         return False, 0
@@ -293,7 +298,7 @@ def desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg):
         return False, 0
 
     # Reverse what was in ascending triangle
-    if (top_avg < 0 and bottom_avg <= 0) or (top_avg < 0 and bottom_avg < 0 and bottom_avg/top_avg < 0.67):
+    if (top_avg < 0 and bottom_avg <= 0) or (top_avg < 0 and bottom_avg < 0 and bottom_avg / top_avg < 0.67):
         return True, -1
     else:
         return False, 0

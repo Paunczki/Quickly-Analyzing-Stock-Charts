@@ -214,9 +214,9 @@ def test_algos(input_file, output_file):
     print(f'matching() classified {correct}/{len(labels) - 3} correctly\n')
 
     # Needed for additional algorithms, might have errors
-    zig_zag, zz_vals, tops, bottoms = zig_zag(oneD)
+    zig_zagg, zz_vals, tops, bottoms = zig_zag(oneD[0])
     top_count, bottom_count = top_bot_straights(tops, bottoms)
-    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD)
+    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD[0])
 
     # TODO Run these for all graphs in graphs on label_revisit. 
     # Print boolean result for every one of these and we can compare with what we found
@@ -229,8 +229,16 @@ def test_algos(input_file, output_file):
     asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg)
     desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg)
     '''
+    # for graph in graphs:
+
 
     # After results, run it on newImages repo, still being completed
+
+    for line in graphs[3].mapped_array:
+        values = ''
+        for value in line:
+            values = values + str(value)
+        print(values)
 
 
 def main():
