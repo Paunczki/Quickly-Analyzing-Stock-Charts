@@ -39,11 +39,9 @@ def zig_zag(oneD_array):
     for j in range(l):
         if j == 0:
             prev = oneD_array[l]
-            direc = -1
             continue
         if prev < oneD_array[l - j] and direc == 1:
             # top
-            print("Switch up")
             tops.append(l - j)
             if len(bottoms) == 0:
                 bottoms.append(l)
@@ -51,7 +49,6 @@ def zig_zag(oneD_array):
             direc = -1
         elif prev > oneD_array[l - j] and direc == -1:
             # bottom
-            print("Switch down")
             bottoms.append(l - j)
             if len(tops) == 0:
                 tops.append(l)
@@ -77,12 +74,24 @@ def zig_zag(oneD_array):
 
     if start == "t":
         for i in range(len(tops)):
-            zig_zag.append(tops[i])
-            zig_zag.append(bottoms[i])
+            try:
+                zig_zag.append(tops[i])
+            except:
+                error = 1
+            try:
+                zig_zag.append(bottoms[i])
+            except:
+                error = 1
     elif start == "b":
         for i in range(len(bottoms)):
-            zig_zag.append(bottoms[i])
-            zig_zag.append(tops[i])
+            try:
+                zig_zag.append(bottoms[i])
+            except:
+                error = 1
+            try:
+                zig_zag.append(tops[i])
+            except:
+                error = 1
 
     zz_vals = []
     for j in zig_zag:
@@ -98,7 +107,7 @@ def top_bot_straights(tops, bottoms):
             start_t = tops[0]
             top_count.append(tops[0])
             continue
-        if (math.abs(tops[t] - start_t) / start_t) < 0.1:
+        if (abs(tops[t] - start_t) / start_t) < 0.1:
             top_count.append(tops[t])
             print("straigt line so far")
         else:
@@ -111,11 +120,14 @@ def top_bot_straights(tops, bottoms):
             start_b = bottoms[0]
             bottom_count.append(bottoms[0])
             continue
-        if (math.abs(bottoms[b] - start_b) / start_b) < 0.1:
-            bottom_count.append(bottoms[b])
-            print("straigt line so far")
-        else:
-            break
+        try:
+            if (abs(bottoms[b] - start_b) / start_b) < 0.1:
+                bottom_count.append(bottoms[b])
+                print("straigt line so far")
+            else:
+                break
+        except:
+            error = 1
     return top_count, bottom_count
 
 
@@ -228,19 +240,25 @@ def find_lines(oneD_array):
 
     count_tops = 0
     for i in tops:
-        p_diff = abs(i - top_avg) / top_avg
-        if p_diff > 0.2:
-            # If difference is more than 20%, the breakthrough
-            #   may have already happened, return false
-            break
-        count_tops += 1
+        try:
+            p_diff = abs(i - top_avg) / top_avg
+            if p_diff > 0.2:
+                # If difference is more than 20%, the breakthrough
+                #   may have already happened, return false
+                break
+            count_tops += 1
+        except:
+            error = 1
 
     count_bottoms = 0
     for i in bottoms:
-        p_diff = math.abs(i - bottom_avg) / bottom_avg
-        if p_diff > 0.2:
-            break
-        count_bottoms += 1
+        try:
+            p_diff = math.abs(i - bottom_avg) / bottom_avg
+            if p_diff > 0.2:
+                break
+            count_bottoms += 1
+        except:
+            error = 1
 
     return count_tops, count_bottoms, top_avg, bottom_avg
 
