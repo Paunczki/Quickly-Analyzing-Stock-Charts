@@ -21,6 +21,9 @@ def test_algos(input_file, output_file):
     with open(os.path.dirname(os.path.realpath(__file__)) + '/label.txt') as file:
         labels = [line.rstrip() for line in file]
 
+    with open(os.path.dirname(os.path.realpath(__file__)) + '/label_revisit.txt') as file:
+        labels2 = [line.rstrip() for line in file]
+
     # Get list of all names of pics in file './graphs'
     graphs_dir = os.path.dirname(os.path.realpath(__file__)) + '/graphs/'
     files = [f for f in listdir(graphs_dir) if isfile(join(graphs_dir, f))]
@@ -67,18 +70,31 @@ def test_algos(input_file, output_file):
     end_time3 = time.time()
     elapsed_time3 = end_time3 - start_time3
     results = []
+    results2 = []
     correct = 0
+    correct2 = 0
     for i in range(len(labels)):
         if labels[i] == comp_columns_result[i]:
             results.append(' ')
             correct += 1
         else:
             results.append('X')
+    for i in range(len(labels2)):
+        if labels2[i] == comp_columns_result[i]:
+            results2.append(' ')
+            correct2 += 1
+        else:
+            results2.append('X')
+
     print(f'comp_columns() took {elapsed_time3:.5f} seconds to run on {len(files)} files')
-    print(labels, '<-- labels')
-    print(results, '<-- results')
+    print(labels, '<-- label.txt')
+    print(results, '<-- results\n')
+    print(labels2, '<-- label_revisit.txt')
+    print(results2, '<-- results2\n')
     print(comp_columns_result, '<-- classified as')
-    print(f'comp_coulmns() classified {correct}/{len(labels)} correctly\n')
+    print(f'comp_coulmns() classified {correct}/{len(labels)} correctly in LABEL.TXT')
+    print(f'comp_columns() classified {correct2}/{len(labels2)} correctly in LABEL_REVISIT.TXT\n')
+
 
     # Run tests for area()
     start_time4 = time.time()
@@ -88,18 +104,29 @@ def test_algos(input_file, output_file):
     end_time4 = time.time()
     elapsed_time4 = end_time4 - start_time4
     results = []
+    results2 = []
     correct = 0
+    correct2 = 0
     for i in range(len(labels)):
         if labels[i] == area_result[i]:
             results.append(' ')
             correct += 1
         else:
             results.append('X')
+    for i in range(len(labels2)):
+        if labels2[i] == area_result[i]:
+            results2.append(' ')
+            correct2 += 1
+        else:
+            results2.append('X')
     print(f'area() took {elapsed_time4:.5f} seconds to run on {len(files)} files')
     print(labels, '<-- labels')
-    print(results, '<-- results')
+    print(results, '<-- results\n')
+    print(labels2, '<-- label_revisit.txt')
+    print(results2, '<-- results2\n')
     print(area_result, '<-- classified as')
-    print(f'area() classified {correct}/{len(labels)} correctly\n')
+    print(f'area() classified {correct}/{len(labels)} correctly in LABEL.TXT')
+    print(f'area() classified {correct2}/{len(labels2)} correctly in LABEL_REVISIT.TXT\n')
 
     # Run tests for column_distance()
     start_time5 = time.time()
@@ -109,18 +136,29 @@ def test_algos(input_file, output_file):
     end_time5 = time.time()
     elapsed_time5 = end_time5 - start_time5
     results = []
+    results2 = []
     correct = 0
+    correct2 = 0
     for i in range(len(labels)):
         if labels[i] == column_distance_result[i]:
             results.append(' ')
             correct += 1
         else:
             results.append('X')
+    for i in range(len(labels2)):
+        if labels2[i] == column_distance_result[i]:
+            results2.append(' ')
+            correct2 += 1
+        else:
+            results2.append('X')
     print(f'column_distance() took {elapsed_time5:.5f} seconds to run on {len(files)} files')
     print(labels, '<-- labels')
-    print(results, '<-- results')
-    print(column_distance_result, '<-- classified as')
-    print(f'column_distance() classified {correct}/{len(labels)} correctly\n')
+    print(results, '<-- results\n')
+    print(labels2, '<-- label_revisit.txt')
+    print(results2, '<-- results2\n')
+    print(area_result, '<-- classified as')
+    print(f'column_distance() classified {correct}/{len(labels)} correctly in LABEL.TXT')
+    print(f'column_distance() classified {correct2}/{len(labels2)} correctly in LABEL_REVISIT.TXT\n')
 
     # Run tests for minima_maxima()
     start_time6 = time.time()
@@ -130,18 +168,29 @@ def test_algos(input_file, output_file):
     end_time6 = time.time()
     elapsed_time6 = end_time6 - start_time6
     results = []
+    results2 = []
     correct = 0
+    correct2 = 0
     for i in range(len(labels)):
         if labels[i] == minima_maxima_result[i]:
             results.append(' ')
             correct += 1
         else:
             results.append('X')
+    for i in range(len(labels2)):
+        if labels2[i] == minima_maxima_result[i]:
+            results2.append(' ')
+            correct2 += 1
+        else:
+            results2.append('X')
     print(f'minima_maxima() took {elapsed_time6:.5f} seconds to run on {len(files)} files')
     print(labels, '<-- labels')
-    print(results, '<-- results')
-    print(minima_maxima_result, '<-- classified as')
-    print(f'minima_maxima() classified {correct}/{len(labels)} correctly\n')
+    print(results, '<-- results\n')
+    print(labels2, '<-- label_revisit.txt')
+    print(results2, '<-- results2\n')
+    print(area_result, '<-- classified as')
+    print(f'minima_maxima() classified {correct}/{len(labels)} correctly in LABEL.TXT')
+    print(f'minima_maxima() classified {correct2}/{len(labels2)} correctly in LABEL_REVISIT.TXT\n')
 
     # Run tests for matching()
     start_time7 = time.time()
@@ -165,9 +214,9 @@ def test_algos(input_file, output_file):
     print(f'matching() classified {correct}/{len(labels) - 3} correctly\n')
 
     # Needed for additional algorithms, might have errors
-    zig_zag, zz_vals, tops, bottoms = zig_zag(oneD)
+    zig_zagg, zz_vals, tops, bottoms = zig_zag(oneD[0])
     top_count, bottom_count = top_bot_straights(tops, bottoms)
-    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD)
+    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD[0])
 
     # TODO Run these for all graphs in graphs on label_revisit. 
     # Print boolean result for every one of these and we can compare with what we found
@@ -180,8 +229,16 @@ def test_algos(input_file, output_file):
     asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg)
     desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg)
     '''
+    # for graph in graphs:
+
 
     # After results, run it on newImages repo, still being completed
+
+    for line in graphs[3].mapped_array:
+        values = ''
+        for value in line:
+            values = values + str(value)
+        print(values)
 
 
 def main():
