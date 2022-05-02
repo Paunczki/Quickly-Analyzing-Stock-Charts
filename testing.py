@@ -11,6 +11,7 @@ from ArrayFromPic import ArrayFromPic
 from quickSort import quickSort as qs
 from mergeSort import mergeSort as ms
 from algos import *
+from add_algos import *
 import numpy as np
 import time
 
@@ -211,6 +212,25 @@ def test_algos(input_file, output_file):
     print(results, '<-- results')
     print(matching_result, '<-- classified as')
     print(f'matching() classified {correct}/{len(labels) - 3} correctly\n')
+
+    # Needed for additional algorithms, might have errors
+    zig_zag, zz_vals, tops, bottoms = zig_zag(oneD)
+    top_count, bottom_count = top_bot_straights(tops, bottoms)
+    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD)
+
+    # TODO Run these for all graphs in graphs on label_revisit. 
+    # Print boolean result for every one of these and we can compare with what we found
+    '''
+    head_and_shoulders(tops, bottoms, top_count, bottom_count)
+    double_top(tops, bottoms, top_count, bottom_count)
+    double_bottom(tops, bottoms, top_count, bottom_count)
+    rounding_bottom(tops, bottoms)
+    wedge(count_tops, count_bottoms, top_avg, bottom_avg)
+    asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg)
+    desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg)
+    '''
+
+    # After results, run it on newImages repo, still being completed
 
 
 def main():
