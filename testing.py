@@ -16,7 +16,7 @@ import numpy as np
 import time
 
 
-def test_algos(input_file, output_file):
+def test_algos():
 
     with open(os.path.dirname(os.path.realpath(__file__)) + '/label.txt') as file:
         labels = [line.rstrip() for line in file]
@@ -267,7 +267,7 @@ def test_algos(input_file, output_file):
 
 
 def main():
-    test_algos('graphs/Graph01.jpg', 'output01.jpg')
+    test_algos()
 
 
 if __name__ == '__main__':

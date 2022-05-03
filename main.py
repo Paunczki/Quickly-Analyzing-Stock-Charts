@@ -1,7 +1,24 @@
+import os
+from os import listdir
+from os.path import isfile, join
 from PIL import Image
-from ArrayFromPic import ArrayFromPic as afp
-#import argparse
+from ArrayFromPic import ArrayFromPic
+from quickSort import quickSort as qs
+from mergeSort import mergeSort as ms
+from algos import *
+from add_algos import *
+from imageConverter import *
+import numpy as np
+import time
 
+
+def main(image):
+    # First we need to convert the image into 2D array (this is done pixel to pixel)
+    print(image)
+
+    two_d_array = 1
+
+'''
 def solve(input_file, output_file):
     # Load Image
     print("Loading Image 13")
@@ -32,4 +49,4 @@ def solve(input_file, output_file):
 #
 #
 # if __name__ == '__main__':
-#     main()
+#     main()'''

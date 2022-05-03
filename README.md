@@ -10,7 +10,14 @@ See attached PDF for final project report
 
 
 
-## How to run
+## Demo
+To demo our code to be more simple, run demo.py
+
+To make sure it can run, please look into how to run
+
+
+
+## How to run + use on your end
 
 To run this project, you will need a few libraries.
 Make sure to have the following libraries installed via pip:
