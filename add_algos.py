@@ -242,9 +242,14 @@ def find_lines(oneD_array):
             slope = delta_y / delta_x
             bottom_slope.append(slope)
             sum_bottom += slope
-
-    top_avg = sum_top / len(tops)
-    bottom_avg = sum_bottom / len(bottoms)
+    try:
+        top_avg = sum_top / len(tops)
+    except:
+        top_avg = 0
+    try:
+        bottom_avg = sum_bottom / len(bottoms)
+    except:
+        bottom_avg = 0
 
     count_tops = 0
     for i in tops:

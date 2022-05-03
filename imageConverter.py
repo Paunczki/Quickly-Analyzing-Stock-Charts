@@ -1,7 +1,25 @@
 import os
 
 from PIL import Image
+from ArrayFromPic import *
 
+def convertImage(image):
+    img = Image.open(image)
+    firstPixel = img.getpixel((0,0))
+
+    width = img.size[0]
+    height = img.size[1]
+
+    for i in range(0,width): # process all pixels
+        for j in range(0,height):
+            data = img.getpixel((i,j))
+
+            img.putpixel((i,j),(0,0,0)) if data==firstPixel else img.putpixel((i,j),(255,255,255))
+
+    img_to_save = img.convert('RGB')
+    # img_to_save.save(graphs_dir + "_graph00"+str(id)+".jpg")
+    graph = ArrayFromPic(img_to_save)
+    return graph
 
 
 def imageConverter():

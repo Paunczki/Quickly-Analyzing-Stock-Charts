@@ -17,8 +17,8 @@ import time
 
 
 def test_algos():
-
-    imageConverter()
+    # run this to create our new graphs but not needed
+    # imageConverter()
 
     with open(os.path.dirname(os.path.realpath(__file__)) + '/label.txt') as file:
         labels = [line.rstrip() for line in file]

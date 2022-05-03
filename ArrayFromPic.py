@@ -22,6 +22,6 @@ class ArrayFromPic:
                 self.mapped_array[row][column] = 1
             index_count += 1
             column += 1
-            if index_count % width == 0:
+            if index_count % height == 0:
                 row += 1
                 column = 0
