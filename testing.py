@@ -5,13 +5,13 @@
 import os
 from os import listdir
 from os.path import isfile, join
-
 from PIL import Image
 from ArrayFromPic import ArrayFromPic
 from quickSort import quickSort as qs
 from mergeSort import mergeSort as ms
 from algos import *
 from add_algos import *
+from imageConverter import *
 import numpy as np
 import time
 
