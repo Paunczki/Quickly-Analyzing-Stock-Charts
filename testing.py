@@ -213,32 +213,57 @@ def test_algos(input_file, output_file):
     print(matching_result, '<-- classified as')
     print(f'matching() classified {correct}/{len(labels) - 3} correctly\n')
 
-    # Needed for additional algorithms, might have errors
-    zig_zagg, zz_vals, tops, bottoms = zig_zag(oneD[0])
-    top_count, bottom_count = top_bot_straights(tops, bottoms)
-    count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD[0])
-
-    # TODO Run these for all graphs in graphs on label_revisit. 
-    # Print boolean result for every one of these and we can compare with what we found
-    '''
-    head_and_shoulders(tops, bottoms, top_count, bottom_count)
-    double_top(tops, bottoms, top_count, bottom_count)
-    double_bottom(tops, bottoms, top_count, bottom_count)
-    rounding_bottom(tops, bottoms)
-    wedge(count_tops, count_bottoms, top_avg, bottom_avg)
-    asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg)
-    desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg)
-    '''
-    # for graph in graphs:
-
+    print("\n----------------------------------------------------------\n")
 
     # After results, run it on newImages repo, still being completed
+    # Need to run through all graphs
+    
+    oneD = [twoD_to_oneD(g.mapped_array) for g in graphs]
+    count = 0
+    for graph in oneD:
+        count += 1
+        print("\nGraph", count, ":")
+        # print(graph)
+        start_time2 = time.time()
+        # Needed for additional algorithms, might have errors
+        zig_zagg, zz_vals, tops, bottoms = zig_zag(graph)
+        # print(zig_zagg, zz_vals, tops, bottoms)
+        top_count, bottom_count = top_bot_straights(tops, bottoms)
+        # print(top_count, bottom_count)
+        count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD[0])
+        # print(count_tops, count_bottoms, top_avg, bottom_avg)
 
-    for line in graphs[3].mapped_array:
-        values = ''
-        for value in line:
-            values = values + str(value)
-        print(values)
+        results, val = head_and_shoulders(tops, bottoms, top_count, bottom_count)
+        if results == True:
+            print("\tHead & Shoulders = ", val)
+        
+        results, val = double_top(tops, bottoms, top_count, bottom_count)
+        if results == True:
+            print("\tDouble Top = ", val)
+
+        results, val = double_bottom(tops, bottoms, top_count, bottom_count)
+        if results == True:
+            print("\tDouble Bottom = ", val)
+        
+        results, val = rounding_bottom(tops, bottoms)
+        if results == True:
+            print("\tRounding Bottom = ", val)
+        
+        results, val = wedge(count_tops, count_bottoms, top_avg, bottom_avg)
+        if results == True:
+            print("\tWedge = ", val)
+        
+        results, val = asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg)
+        if results == True:
+            print("\tAscending Triangle = ", val)
+        
+        results, val = desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg)
+        if results == True:
+            print("\tDescending Triangle = ", val)
+        
+        end_time2 = time.time()
+        elapsed_time2 = end_time2 - start_time2
+        print("Time taken:", elapsed_time2)
 
 
 def main():

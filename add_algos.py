@@ -65,10 +65,13 @@ def zig_zag(oneD_array):
         '''
     # return tops, bottoms
     start = "o"
-    if tops[0] > bottoms[0]:
-        start = "t"
-    else:
-        start = "b"
+    try:
+        if tops[0] > bottoms[0]:
+            start = "t"
+        else:
+            start = "b"
+    except:
+        error = 1
 
     zig_zag = []
 
@@ -109,7 +112,6 @@ def top_bot_straights(tops, bottoms):
             continue
         if (abs(tops[t] - start_t) / start_t) < 0.1:
             top_count.append(tops[t])
-            print("straigt line so far")
         else:
             break
 
@@ -123,7 +125,6 @@ def top_bot_straights(tops, bottoms):
         try:
             if (abs(bottoms[b] - start_b) / start_b) < 0.1:
                 bottom_count.append(bottoms[b])
-                print("straigt line so far")
             else:
                 break
         except:
@@ -132,17 +133,17 @@ def top_bot_straights(tops, bottoms):
 
 
 def head_and_shoulders(tops, bottoms, top_count, bottom_count):
-    if len(bottom_count) > 3 and len(top_count) > 3:
+    if len(bottom_count) > 2 and len(top_count) > 2:
         # These are both straight lines which do not tell us anything
         # Therefore, we should just return false
         return False, 0
-    elif len(bottom_count) > 3:
+    elif len(bottom_count) > 2:
         shoulder_left = tops[0]
         head = tops[1]
         shoulder_right = tops[2]
         if shoulder_left < head and shoulder_right < head:
             return True, -1
-    elif len(top_count) > 3:
+    elif len(top_count) > 2:
         shoulder_left = bottoms[0]
         head = bottoms[1]
         shoulder_right = bottoms[2]
@@ -153,14 +154,16 @@ def head_and_shoulders(tops, bottoms, top_count, bottom_count):
 
 
 def double_top(tops, bottoms, top_count, bottom_count):
-    if bottom_count > 2:
+    if len(bottom_count) > 1:
         # Straight line at bottom
         top_one = tops[0]
         top_two = tops[1]
-        if (math.abs(top_one - top_two) / top_one) < 0.1:
+        if (abs(top_one - top_two) / top_one) < 0.1:
             return True, -1
         else:
             return False, 0
+    else:
+        return False, 0
 
 
 # cup and handle removed as it can be done via using two of these algos
@@ -169,19 +172,24 @@ def double_top(tops, bottoms, top_count, bottom_count):
 
 
 def double_bottom(tops, bottoms, top_count, bottom_count):
-    if top_count > 2:
+    if len(top_count) > 1:
         # Straight line at top
         bottom_one = bottoms[0]
         bottom_two = bottoms[1]
-        if (math.abs(bottom_one - bottom_two) / bottom_one) < 0.1:
+        if (abs(bottom_one - bottom_two) / bottom_one) < 0.1:
             return True, 1
         else:
             return False, 0
+    else:
+        return False, 0
 
 
 def rounding_bottom(tops, bottoms):
     # these will be our two top values to work with
-    top_start = tops[0]
+    try:
+        top_start = tops[0]
+    except:
+        return False, 0
     top_vals = []
     top_end = -1
 
@@ -253,10 +261,11 @@ def find_lines(oneD_array):
     count_bottoms = 0
     for i in bottoms:
         try:
-            p_diff = math.abs(i - bottom_avg) / bottom_avg
-            if p_diff > 0.2:
-                break
-            count_bottoms += 1
+            if bottom_avg != 0:
+                p_diff = abs(i - bottom_avg) / bottom_avg
+                if p_diff > 0.2:
+                    break
+                count_bottoms += 1
         except:
             error = 1
 
@@ -266,7 +275,7 @@ def find_lines(oneD_array):
 def wedge(count_tops, count_bottoms, top_avg, bottom_avg):
     # For a wedge we want to  see a zig-zag in price, but within a range
     # count_tops, count_bottoms, top_avg, bottom_avg = find_lines(oneD_array)
-    if count_tops < 2 or count_bottoms < 2:
+    if count_tops < 1 or count_bottoms < 1:
         return False, 0
 
     # At this point, we know a wedge exists
@@ -300,7 +309,7 @@ def pennant(count_tops, count_bottoms, top_avg, bottom_avg):
 
 
 def asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg):
-    if count_tops < 2 or count_bottoms < 2:
+    if count_tops < 1 or count_bottoms < 1:
         return False, 0
 
     # We need an additional check to see if positive trend upwards but bottom is growing faster than converges too
@@ -312,7 +321,7 @@ def asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg):
 
 
 def desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg):
-    if count_tops < 2 or count_bottoms < 2:
+    if count_tops < 1 or count_bottoms < 1:
         return False, 0
 
     # Reverse what was in ascending triangle
