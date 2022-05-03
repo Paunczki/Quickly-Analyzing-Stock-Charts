@@ -18,6 +18,8 @@ import time
 
 def test_algos():
 
+    imageConverter()
+
     with open(os.path.dirname(os.path.realpath(__file__)) + '/label.txt') as file:
         labels = [line.rstrip() for line in file]
 

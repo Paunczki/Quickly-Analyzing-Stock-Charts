@@ -1,9 +1,15 @@
-from PIL import Image
-import numpy as np
+import os
 
-def convert_image():
+from PIL import Image
+
+
+
+def imageConverter():
+    ss_dir = os.path.dirname(os.path.realpath(__file__)) + '/newImages/'
+    graphs_dir = os.path.dirname(os.path.realpath(__file__)) + '/graphs/'
     for id in range(1,9):
-        img = Image.open("sample_0"+str(id)+".png")
+
+        img = Image.open(ss_dir + "sample_0"+str(id)+".png")
 
         width = img.size[0]
         height = img.size[1]
@@ -22,5 +28,6 @@ def convert_image():
 
                 img.putpixel((i,j),(0,0,0)) if data==firstPixel else img.putpixel((i,j),(255,255,255))
 
-        img.save(r"graph00"+str(id)+".png")
-        img.show()
+        img_to_save = img.convert('RGB')
+        img_to_save.save(graphs_dir + "_graph00"+str(id)+".jpg")
+        # img.show()
