@@ -5,7 +5,6 @@
 import os
 from os import listdir
 from os.path import isfile, join
-
 from PIL import Image
 from ArrayFromPic import ArrayFromPic
 from quickSort import quickSort as qs
