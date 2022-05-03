@@ -12,11 +12,14 @@ from quickSort import quickSort as qs
 from mergeSort import mergeSort as ms
 from algos import *
 from add_algos import *
+from imageConverter import *
 import numpy as np
 import time
 
 
 def test_algos(input_file, output_file):
+
+    imageConverter()
 
     with open(os.path.dirname(os.path.realpath(__file__)) + '/label.txt') as file:
         labels = [line.rstrip() for line in file]
