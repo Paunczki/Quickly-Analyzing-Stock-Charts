@@ -110,7 +110,7 @@ def top_bot_straights(tops, bottoms):
             start_t = tops[0]
             top_count.append(tops[0])
             continue
-        if (abs(tops[t] - start_t) / start_t) < 0.1:
+        if (abs(tops[t] - start_t) / start_t) < 0.25:
             top_count.append(tops[t])
         else:
             break
@@ -123,7 +123,7 @@ def top_bot_straights(tops, bottoms):
             bottom_count.append(bottoms[0])
             continue
         try:
-            if (abs(bottoms[b] - start_b) / start_b) < 0.1:
+            if (abs(bottoms[b] - start_b) / start_b) < 0.25:
                 bottom_count.append(bottoms[b])
             else:
                 break
@@ -158,7 +158,7 @@ def double_top(tops, bottoms, top_count, bottom_count):
         # Straight line at bottom
         top_one = tops[0]
         top_two = tops[1]
-        if (abs(top_one - top_two) / top_one) < 0.1:
+        if (abs(top_one - top_two) / top_one) < 0.25:
             return True, -1
         else:
             return False, 0
@@ -176,7 +176,7 @@ def double_bottom(tops, bottoms, top_count, bottom_count):
         # Straight line at top
         bottom_one = bottoms[0]
         bottom_two = bottoms[1]
-        if (abs(bottom_one - bottom_two) / bottom_one) < 0.1:
+        if (abs(bottom_one - bottom_two) / bottom_one) < 0.25:
             return True, 1
         else:
             return False, 0
@@ -250,7 +250,7 @@ def find_lines(oneD_array):
     for i in tops:
         try:
             p_diff = abs(i - top_avg) / top_avg
-            if p_diff > 0.2:
+            if p_diff > 0.4:
                 # If difference is more than 20%, the breakthrough
                 #   may have already happened, return false
                 break
@@ -263,7 +263,7 @@ def find_lines(oneD_array):
         try:
             if bottom_avg != 0:
                 p_diff = abs(i - bottom_avg) / bottom_avg
-                if p_diff > 0.2:
+                if p_diff > 0.4:
                     break
                 count_bottoms += 1
         except:
@@ -313,8 +313,8 @@ def asc_traingle(count_tops, count_bottoms, top_avg, bottom_avg):
         return False, 0
 
     # We need an additional check to see if positive trend upwards but bottom is growing faster than converges too
-    # We will use 0.67 as it means that bottom is growing faster
-    if (top_avg <= 0 and bottom_avg > 0) or (top_avg > 0 and bottom_avg > 0 and top_avg / bottom_avg < 0.67):
+    # We will use 0.8 as it means that bottom is growing faster
+    if (top_avg <= 0 and bottom_avg > 0) or (top_avg > 0 and bottom_avg > 0 and (abs(top_avg - bottom_avg) / bottom_avg) < 0.8):
         return True, 1
     else:
         return False, 0
@@ -325,7 +325,7 @@ def desc_triangle(count_tops, count_bottoms, top_avg, bottom_avg):
         return False, 0
 
     # Reverse what was in ascending triangle
-    if (top_avg < 0 and bottom_avg <= 0) or (top_avg < 0 and bottom_avg < 0 and bottom_avg / top_avg < 0.67):
+    if (top_avg < 0 and bottom_avg <= 0) or (top_avg < 0 and bottom_avg < 0 and (abs(bottom_avg - top_avg) / top_avg) < 0.8):
         return True, -1
     else:
         return False, 0
